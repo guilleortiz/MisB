@@ -15,8 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
 
-    DatabaseReference database = FirebaseDatabase.getInstance().getReference("a");
-    DatabaseReference myRef = database.child("a");
+    // Write a message to the database
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Mudanzas");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +38,31 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Read from the database
-        database.addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                //Log.d(TAG, "Value is: " + value);
-                Toast.makeText(MainActivity.this, "Value is: " + value, Toast.LENGTH_SHORT).show();
+               // int nUsers= (int) dataSnapshot.getChildrenCount();
+
+                String value = dataSnapshot.child("0").child("cajas").child("0").child("Contenido").getValue(String.class);
+
+                Iterable<DataSnapshot> values = dataSnapshot.getChildren();
+
+                for (DataSnapshot Mudanzas:values) {
+                    Toast.makeText(MainActivity.this, Mudanzas.getValue().toString(), Toast.LENGTH_LONG).show();
+
+                }
+
+
+                //Toast.makeText(MainActivity.this, "Value is: " + value, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                //Log.w(TAG, "Failed to read value.", error.toException());
+                Toast.makeText(MainActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
