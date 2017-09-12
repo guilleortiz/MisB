@@ -10,6 +10,11 @@ public class Box {
     int numero;
     String descripion,ubicacion,tipo;
 
+    public Box(Boolean cajaAbierta, int numero, String tipo) {
+        setCajaAbierta(cajaAbierta);
+        setNumero(numero);
+        setTipo(tipo);
+    }
 
 
     public Boolean getCajaAbierta() {
